@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ChannelAdvisorDeveloperAuth.ChannelAdvisorAdminService;
 
 namespace ChannelAdvisorDeveloperAuth
 {
@@ -10,12 +11,40 @@ namespace ChannelAdvisorDeveloperAuth
     {
         static void Main(string[] args)
         {
-            // The code provided will print ‘Hello World’ to the console.
-            // Press Ctrl+F5 (or go to Debug > Start Without Debugging) to run your app.
-            Console.WriteLine("Hello World!");
-            Console.ReadKey();
+            Console.WriteLine("Enter Profile ID for the account you wish to authorize.");
+            string accountID = Console.ReadLine();
+            AuthorizeChannelAdvisorAPI(accountID);
 
-            // Go to http://aka.ms/dotnet-get-started-console to continue learning how to build a console app! 
+        }
+
+        public static void AuthorizeChannelAdvisorAPI(string accountID)
+        {
+            string developerKey = string.Empty;
+            string password = string.Empty;
+            
+
+            developerKey = "83a02569-8a08-431e-8f4d-08293c08506d";
+            password = "TPGdev2017";
+            
+
+            try
+            {
+                ChannelAdvisorAdminService.APICredentials AdminCredentials = new ChannelAdvisorAdminService.APICredentials();
+                AdminCredentials.DeveloperKey = developerKey;
+                AdminCredentials.Password = password;
+
+                AdminServiceSoapClient admin = new AdminServiceSoapClient();
+                ChannelAdvisorAdminService.APIResultOfBoolean bol = admin.RequestAccess(AdminCredentials, Convert.ToInt32(accountID));
+                ChannelAdvisorAdminService.APIResultOfArrayOfAuthorizationResponse authList = admin.GetAuthorizationList(AdminCredentials, accountID);
+
+                Console.WriteLine("Account authorized successfully.");
+                Console.ReadLine();
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
         }
     }
 }
