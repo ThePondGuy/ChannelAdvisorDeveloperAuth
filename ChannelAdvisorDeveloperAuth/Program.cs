@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using ChannelAdvisorDeveloperAuth.ChannelAdvisorAdminService;
@@ -14,6 +15,7 @@ namespace ChannelAdvisorDeveloperAuth
             Console.WriteLine("Enter Profile ID for the account you wish to authorize.");
             string accountID = Console.ReadLine();
             AuthorizeChannelAdvisorAPI(accountID);
+            Console.ReadLine();
 
         }
 
@@ -25,8 +27,8 @@ namespace ChannelAdvisorDeveloperAuth
 
             developerKey = "83a02569-8a08-431e-8f4d-08293c08506d";
             password = "TPGdev2017";
-            
 
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12; //TLS 1.2
             try
             {
                 ChannelAdvisorAdminService.APICredentials AdminCredentials = new ChannelAdvisorAdminService.APICredentials();
